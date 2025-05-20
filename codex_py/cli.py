@@ -13,7 +13,7 @@ from .config import load_config
 from .agent_loop import AgentLoop
 from .approvals import can_auto_approve
 
-app = typer.Typer(add_help_option=False)
+app = typer.Typer(invoke_without_command=True)
 
 
 def login_flow() -> str:
@@ -54,14 +54,6 @@ def main(
     if provider:
         config["provider"] = provider
 
-    api_key = os.environ.get("OPENAI_API_KEY", "")
-    if login or not api_key:
-        api_key = login_flow()
-        os.environ["OPENAI_API_KEY"] = api_key
-        (pathlib.Path.home() / ".codex" / "auth.json").write_text(
-            json.dumps({"OPENAI_API_KEY": api_key})
-        )
-
     if view:
         path = pathlib.Path(view)
         typer.echo(path.read_text())
@@ -74,6 +66,14 @@ def main(
             if content:
                 typer.echo(content)
         raise typer.Exit()
+
+    api_key = os.environ.get("OPENAI_API_KEY", "")
+    if login or not api_key:
+        api_key = login_flow()
+        os.environ["OPENAI_API_KEY"] = api_key
+        (pathlib.Path.home() / ".codex" / "auth.json").write_text(
+            json.dumps({"OPENAI_API_KEY": api_key})
+        )
 
     if not prompt:
         typer.echo("No prompt supplied", err=True)
