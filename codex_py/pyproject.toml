@@ -5,8 +5,16 @@ description = "Codex Python CLI"
 authors = [{name = "OpenAI"}]
 requires-python = ">=3.9"
 
+[project.dependencies]
+typer = "^0.9"
+textual = "^0.46"
+openai = "^1.0"
+
 [project.scripts]
 codex = "codex_py.cli:app"
+
+[project.optional-dependencies]
+dev = ["pytest"]
 
 [build-system]
 requires = ["setuptools", "wheel"]
