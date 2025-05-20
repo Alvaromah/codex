@@ -1,0 +1,21 @@
+[project]
+name = "codex_py"
+version = "0.1.0"
+description = "Codex Python CLI"
+authors = [{name = "OpenAI"}]
+requires-python = ">=3.9"
+dependencies = [
+    "typer",
+    "openai",
+    "textual",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+codex = "codex_py.cli:app"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
